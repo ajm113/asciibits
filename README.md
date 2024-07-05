@@ -1,6 +1,6 @@
 # asciibits
-[![Build Status](https://github.com/ajm113/asciibits/workflows/Run%20Tests/badge.svg?branch=master)](https://github.com/ajm113/asciibits/actions?query=branch%3Amaster)
-[![codecov](https://codecov.io/gh/ajm113/asciibits/branch/master/graph/badge.svg)](https://codecov.io/gh/ajm113/asciibits)
+[![Build Status](https://github.com/ajm113/asciibits/workflows/Run%20Tests/badge.svg?branch=main)](https://github.com/ajm113/asciibits/actions?query=branch%3Amain)
+[![codecov](https://codecov.io/gh/ajm113/asciibits/branch/main/graph/badge.svg)](https://codecov.io/gh/ajm113/asciibits)
 [![Go Report Card](https://goreportcard.com/badge/github.com/ajm113/asciibits)](https://goreportcard.com/report/github.com/ajm113/asciibits)
 
 *simple cli converts string of decimals to ASCII string or vice versa*
