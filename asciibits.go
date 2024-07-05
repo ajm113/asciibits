@@ -20,12 +20,22 @@ func main() {
 		WithArg(cli.NewArg("string", "string of ascii characters")).
 		WithAction(decimal)
 
+	versionCmd := cli.NewCommand("version", "output current version").
+		WithShortcut("v").
+		WithAction(version)
+
 	app := cli.New("asciibits - used to convert array of decimals in a string to human readable ascii characters or vice versa").
 		WithOption(cli.NewOption("separator", "Separator to use when parsing string").WithChar('s').WithType(cli.TypeString)).
 		WithCommand(asciiCmd).
-		WithCommand(decimalCmd)
+		WithCommand(decimalCmd).
+		WithCommand(versionCmd)
 
 	os.Exit(app.Run(os.Args, os.Stdout))
+}
+
+func version(args []string, options map[string]string) int {
+	fmt.Fprintln(os.Stdout, Version)
+	return 0
 }
 
 func ascii(args []string, options map[string]string) int {
