@@ -6,19 +6,19 @@ Requires Go 1.22.3 or newer.
 
 ## Why?
 
-Tired of manaully copy/pasting decimals spat out from Go libraries and then converting em to human readable strings to easily debug. This is a small utility project I don't plan adding much unless I find a really good reason to add more features.
+Tired of manually copy/pasting decimals spat out from Go libraries and then converting em to human readable strings to easily debug. This is a small utility project I don't plan adding much unless I find a really good reason to add more features.
 
 ## How to Use
 
 ```sh
 
-asciibits [--seperator=string]
+asciibits [--separator=string]
 
 Description:
     asciibits - used to convert array of decimals in a string to human readable ascii characters or vice versa
 
 Options:
-    -s, --seperator     Seperator to use when parsing string
+    -s, --separator     Separator to use when parsing string
 
 Sub-commands:
     asciibits ascii     convert string of decimals to ascii characters., shortcut: a
@@ -41,7 +41,7 @@ $ asciibits d "hello, world"
 104 101 108 108 111 44 32 119 111 114 108 100
 ```
 
-*NOTE:* If you want to change the seperator at any time use `-s` flag.
+*NOTE:* If you want to change the separator at any time use `-s` flag.
 
 ## How to Install
 

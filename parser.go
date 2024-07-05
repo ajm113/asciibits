@@ -48,14 +48,14 @@ func StringToDecimals(input string) (*Tokens, error) {
 	return t, nil
 }
 
-func ParseDecimals(input, seperator string) (*Tokens, error) {
-	input = strings.Trim(input, seperator)
+func ParseDecimals(input, separator string) (*Tokens, error) {
+	input = strings.Trim(input, separator)
 
 	if len(input) == 0 {
 		return nil, ErrParseNoValue
 	}
 
-	tokens := strings.Split(input, seperator)
+	tokens := strings.Split(input, separator)
 
 	decimals := make([]int, len(tokens))
 

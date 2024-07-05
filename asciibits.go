@@ -12,7 +12,7 @@ func main() {
 	asciiCmd := cli.NewCommand("ascii", "convert string of decimals to ascii characters.").
 		WithShortcut("a").
 		WithArg(cli.NewArg("string", "string of decimals")).
-		WithOption(cli.NewOption("seperator", "Seperator used when parsing decimals").WithChar('s').WithType(cli.TypeString)).
+		WithOption(cli.NewOption("separator", "Separator used when parsing decimals").WithChar('s').WithType(cli.TypeString)).
 		WithAction(ascii)
 
 	decimalCmd := cli.NewCommand("decimal", "convert string of ascii characters to array of decimals.").
@@ -21,7 +21,7 @@ func main() {
 		WithAction(decimal)
 
 	app := cli.New("asciibits - used to convert array of decimals in a string to human readable ascii characters or vice versa").
-		WithOption(cli.NewOption("seperator", "Seperator to use when parsing string").WithChar('s').WithType(cli.TypeString)).
+		WithOption(cli.NewOption("separator", "Separator to use when parsing string").WithChar('s').WithType(cli.TypeString)).
 		WithCommand(asciiCmd).
 		WithCommand(decimalCmd)
 
@@ -29,11 +29,11 @@ func main() {
 }
 
 func ascii(args []string, options map[string]string) int {
-	if options["seperator"] == "" {
-		options["seperator"] = " "
+	if options["separator"] == "" {
+		options["separator"] = " "
 	}
 
-	t, err := ParseDecimals(args[0], options["seperator"])
+	t, err := ParseDecimals(args[0], options["separator"])
 
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "failed parsing decimals: %s", err)
@@ -46,8 +46,8 @@ func ascii(args []string, options map[string]string) int {
 }
 
 func decimal(args []string, options map[string]string) int {
-	if options["seperator"] == "" {
-		options["seperator"] = " "
+	if options["separator"] == "" {
+		options["separator"] = " "
 	}
 
 	t, err := StringToDecimals(args[0])
@@ -57,7 +57,7 @@ func decimal(args []string, options map[string]string) int {
 		return 1
 	}
 
-	fmt.Fprintln(os.Stdout, t.String(options["seperator"]))
+	fmt.Fprintln(os.Stdout, t.String(options["separator"]))
 
 	return 0
 }
