@@ -7,14 +7,27 @@ import (
 	"strings"
 )
 
+const (
+	MaxASCIIRange int = 127
+	MinASCIIRange int = 0
+)
+
 type (
 	Tokens struct {
-		decimals []int64
+		decimals []int
+	}
+
+	ErrTokenParse struct {
+		err error
+		str string
+		col int
 	}
 )
 
 var (
-	ErrParseNoValue = errors.New("no value")
+	ErrParseNoValue       = errors.New("no value")
+	ErrDecimalOutOfRange  = errors.New("decimal out of range")
+	ErrDecimalInvalidChar = errors.New("decimal invalid character")
 )
 
 func StringToDecimals(input string) (*Tokens, error) {
@@ -22,10 +35,10 @@ func StringToDecimals(input string) (*Tokens, error) {
 		return nil, ErrParseNoValue
 	}
 
-	decimals := make([]int64, len(input))
+	decimals := make([]int, len(input))
 
 	for i, c := range input {
-		decimals[i] = int64(c)
+		decimals[i] = int(c)
 	}
 
 	t := &Tokens{
@@ -44,16 +57,28 @@ func ParseDecimals(input, seperator string) (*Tokens, error) {
 
 	tokens := strings.Split(input, seperator)
 
-	decimals := make([]int64, len(tokens))
+	decimals := make([]int, len(tokens))
 
 	for i, d := range tokens {
 		decimalInt, err := strconv.Atoi(d)
 
 		if err != nil {
-			return nil, fmt.Errorf("failed parsing token '%s'", d)
+			return nil, ErrTokenParse{
+				err: ErrDecimalInvalidChar,
+				str: d,
+				col: i + 1,
+			}
 		}
 
-		decimals[i] = int64(decimalInt)
+		if decimalInt > MaxASCIIRange || decimalInt < MinASCIIRange {
+			return nil, ErrTokenParse{
+				err: ErrDecimalOutOfRange,
+				str: d,
+				col: i + 1,
+			}
+		}
+
+		decimals[i] = int(decimalInt)
 	}
 
 	t := &Tokens{
@@ -75,8 +100,12 @@ func (t *Tokens) DecimalsToASCIIString() string {
 func (t *Tokens) String(sep string) string {
 	tokens := make([]string, len(t.decimals))
 	for i, v := range t.decimals {
-		tokens[i] = strconv.FormatInt(v, 10)
+		tokens[i] = strconv.FormatInt(int64(v), 10)
 	}
 
 	return strings.Join(tokens, sep)
+}
+
+func (e ErrTokenParse) Error() string {
+	return fmt.Sprintf("%s (%s): col: %d", e.err, e.str, e.col)
 }

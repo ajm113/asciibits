@@ -19,7 +19,7 @@ func TestTokens(t *testing.T) {
 	}
 
 	// Test output of basic strings.
-	tokens = Tokens{decimals: []int64{123, 125}}
+	tokens = Tokens{decimals: []int{123, 125}}
 
 	if tokens.String(" ") != "123 125" {
 		t.Errorf("expected 123 125: %s", tokens.String(" "))
@@ -56,6 +56,39 @@ func TestParseDecimals(t *testing.T) {
 
 	if tokens.DecimalsToASCIIString() != "{}" {
 		t.Errorf("expected empty string: %s", tokens.DecimalsToASCIIString())
+	}
+
+	// test for invalid tokens
+	tokens, err = ParseDecimals("123a 125", " ")
+
+	if errors.Is(err, ErrTokenParse{}) {
+		t.Errorf("unexpected error ParseDecimals, got: %s", err)
+	}
+
+	if tokens != nil {
+		t.Error("expected *Token to be nil")
+	}
+
+	// test for max out of range decimal tokens
+	tokens, err = ParseDecimals("200 125", " ")
+
+	if errors.Is(err, ErrTokenParse{}) {
+		t.Errorf("unexpected error ParseDecimals, got: %s", err)
+	}
+
+	if tokens != nil {
+		t.Error("expected *Token to be nil")
+	}
+
+	// test for negetive range decimal tokens
+	tokens, err = ParseDecimals("-123 125", " ")
+
+	if errors.Is(err, ErrTokenParse{}) {
+		t.Errorf("unexpected error ParseDecimals, got: %s", err)
+	}
+
+	if tokens != nil {
+		t.Error("expected *Token to be nil")
 	}
 }
 
